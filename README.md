@@ -7,23 +7,17 @@ Introduction to D3.js workshop for the 2017 Brown Datathon.
 
 ## Setting Up D3
 
-There are two ways you can setup D3.js for your visualization.  Please note that version four of D3.js was released this past summer.  My introduction uses version three.  Keep this in mind if you decide to use my example as source code.
+There are two ways you can setup D3.js for your visualization.  Please note that version 4 of D3.js was released this past summer.  My introduction uses version 3.  Keep this in mind if you decide to use my example as source code.
 
-* Download D3.js and support it locally
-
-1.
-	npm install d3 
-or https://unpkg.com/d3@4.7.1/build/
-
+* Download [D3.js](https://unpkg.com/d3@4.7.1/build/) and support it locally
 
 
 * Serve your project locally and use CDN
 
-	<script src="https://d3js.org/d3.v4.min.js"></script>
 
 ## Documentation
 
-D3.js is extremely well documented.  This should be the first place you turn if you need help: [https://d3js.org/](https://d3js.org/)
+D3.js is extremely well documented (for both version 3 and 4).  This should be the first place you turn if you need help: https://d3js.org/
 
 ## Helpful Resources
 
