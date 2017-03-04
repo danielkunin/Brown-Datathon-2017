@@ -96,54 +96,54 @@
 	//   .attr("transform", "translate(" + margin.left / -2 + "," + height / 2 + ")rotate(-90)");
 
 
-	//7: Join, Exit, Update, Enter
-	// var time = 300,
-	// 	radius = 5;
-	// function update(data) {
-	// 	// 7.1: Get Traits
-	// 	// trait_x = random_trait();
-	// 	// trait_y = random_trait();
+	//7: Join, Update, Enter, Exit
+	var time = 300,
+		radius = 5;
+	function update(data) {
+		// 7.1: Get Traits
+		// trait_x = random_trait();
+		// trait_y = random_trait();
 
-	// 	// 7.2: Update Axes Labels
-	// 	// svg.selectAll("text.label")
-	// 	//   .data([trait_x, trait_y])
-	// 	//   .text(function(d) { return d; });
+		// 7.2: Update Axes Labels
+		// svg.selectAll("text.label")
+		//   .data([trait_x, trait_y])
+		//   .text(function(d) { return d; });
 
-	// 	// 7.3: Scale Domains
-	// 	// x.domain([d3.min(data, function(d) { return d[trait_x]; }), 
-	// 	// 		  d3.max(data, function(d) { return d[trait_x]; })]);
-	// 	// y.domain([d3.min(data, function(d) { return d[trait_y]; }), 
-	// 	// 		  d3.max(data, function(d) { return d[trait_y]; })]);
+		// 7.3: Scale Domains
+		// x.domain([d3.min(data, function(d) { return d[trait_x]; }), 
+		// 		  d3.max(data, function(d) { return d[trait_x]; })]);
+		// y.domain([d3.min(data, function(d) { return d[trait_y]; }), 
+		// 		  d3.max(data, function(d) { return d[trait_y]; })]);
 
-	// 	// 7.4: Update Axis
-	// 	// svg.select('.x.axis').transition().duration(time).call(xAxis);
-	// 	// svg.select(".y.axis").transition().duration(time).call(yAxis);
+		// 7.4: Update Axis
+		// svg.select('.x.axis').transition().duration(time).call(xAxis);
+		// svg.select(".y.axis").transition().duration(time).call(yAxis);
 
-	// 	// 7.5: JOIN new data with old elements.
-	// 	// var flower = svg.selectAll("circle")
-	// 	//   .data(data, function(d) { return d["Index"]; });
+		// 7.5: JOIN new data with old elements.
+		// var flower = svg.selectAll("circle")
+		//   .data(data, function(d) { return d["Index"]; });
 
-	// 	// 7.6: EXIT old elements not present in new data.
-	// 	// flower.exit()
-	// 	//   .attr("class", "exit")
-	// 	//   .remove();
+		// 7.6: UPDATE old elements present in new data.
+		// flower.attr("class", "update")
+		// .transition(time)
+		//   .attr("cx", function(d) { return x(d[trait_x]); })
+		//   .attr("cy", function(d) { return y(d[trait_y]); });
 
-	// 	// 7.7: UPDATE old elements present in new data.
-	// 	// flower.attr("class", "update")
-	// 	// .transition(time)
-	// 	//   .attr("cx", function(d) { return x(d[trait_x]); })
-	// 	//   .attr("cy", function(d) { return y(d[trait_y]); });
+		// 7.7: ENTER new elements present in new data.
+		// flower.enter().append("circle")
+		//   .attr("cx", function(d) { return x(d[trait_x]); })
+		//   .attr("cy", function(d) { return y(d[trait_y]); })
+		//   .attr("r", radius)
+		//   .style("fill", function(d) { return color(d["Species"]); })
+		//   .style("fill-opacity", 1e-6)
+		// .transition(time)
+		//   .style("fill-opacity", 1);
 
-	// 	// 7.8: ENTER new elements present in new data.
-	// 	// flower.enter().append("circle")
-	// 	//   .attr("cx", function(d) { return x(d[trait_x]); })
-	// 	//   .attr("cy", function(d) { return y(d[trait_y]); })
-	// 	//   .attr("r", radius)
-	// 	//   .style("fill", function(d) { return color(d["Species"]); })
-	// 	//   .style("fill-opacity", 1e-6)
-	// 	// .transition(time)
-	// 	//   .style("fill-opacity", 1);
-	// }
+		// 7.8: EXIT old elements not present in new data.
+		// flower.exit()
+		//   .attr("class", "exit")
+		//   .remove();
+	}
 
 	// 8a: Bind Visualize function to SVG on click
 	// d3.select("svg").on("click", function() {

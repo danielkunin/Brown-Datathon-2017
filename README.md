@@ -1,4 +1,4 @@
-# Brown-Datathon-2017
+# Brown Datathon 2017
 Introduction to D3.js workshop for the 2017 Brown Datathon.
 
 ## What is D3.js?
@@ -21,11 +21,11 @@ D3.js is extremely well documented (for both version 3 and 4).  This should be t
 
 ## Helpful Resources
 
-[Mike Bosotocks open source examples](https://bl.ocks.org/mbostock)
+[Mike Bosotock's open source examples](https://bl.ocks.org/mbostock)
 
-[Scott Murray D3 Tutorials](http://alignedleft.com/tutorials/d3/)
+[Scott Murray's D3 Tutorials](http://alignedleft.com/tutorials/d3/)
 
-[Mike Bostocks D3 Workshop](https://bost.ocks.org/mike/d3/workshop/#0)
+[Mike Bostock's D3 Workshop](https://bost.ocks.org/mike/d3/workshop/#0)
 
 [D3 Tool Tip](https://github.com/Caged/d3-tip)
 
