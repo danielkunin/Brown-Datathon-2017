@@ -47,53 +47,53 @@
 
 
 	// 1: Set up dimensions of SVG
-	// var margin = {top: 30, right: 30, bottom: 60, left: 60},
-	// 	width = 700 - margin.left - margin.right,
-	// 	height = 500 - margin.top - margin.bottom;
+	var margin = {top: 30, right: 30, bottom: 60, left: 60},
+		width = 700 - margin.left - margin.right,
+		height = 500 - margin.top - margin.bottom;
 
 	// 2: Create SVG
-	// var svg = d3.select("body").append("svg")
-	//     .attr("width", width + margin.left + margin.right)
-	//     .attr("height", height + margin.top + margin.bottom)
-	//   .append("g")
-	//     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	var svg = d3.select("body").append("svg")
+	    .attr("width", width + margin.left + margin.right)
+	    .attr("height", height + margin.top + margin.bottom)
+	  .append("g")
+	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	// 3: Scales
-	// var x = d3.scale.linear()
-	//     .range([0, width]);
-	// var y = d3.scale.linear()
-	//     .range([height, 0]);
-	// var color = d3.scale.category10();
+	var x = d3.scale.linear()
+	    .range([0, width]);
+	var y = d3.scale.linear()
+	    .range([height, 0]);
+	var color = d3.scale.category10();
 
 	// 4: Axes
-	// var xAxis = d3.svg.axis()
-	//     .scale(x)
-	//     .orient("bottom")
-	//     .ticks(6);
-	// var yAxis = d3.svg.axis()
-	//     .scale(y)
-	//     .orient("left")
-	//     .ticks(6);
+	var xAxis = d3.svg.axis()
+	    .scale(x)
+	    .orient("bottom")
+	    .ticks(6);
+	var yAxis = d3.svg.axis()
+	    .scale(y)
+	    .orient("left")
+	    .ticks(6);
 
 	// 5: Graph
-	// svg.append("g")
-	//   .attr("class", "x axis")
-	//   .attr("transform", "translate(0," + height + ")")
-	//   .call(xAxis);
-	// svg.append("g")
-	//   .attr("class", "y axis")
-	//   .attr("transform", "translate(0,0)")
-	//   .call(yAxis);
+	svg.append("g")
+	  .attr("class", "x axis")
+	  .attr("transform", "translate(0," + height + ")")
+	  .call(xAxis);
+	svg.append("g")
+	  .attr("class", "y axis")
+	  .attr("transform", "translate(0,0)")
+	  .call(yAxis);
 
 	// 6: Axes Labels
-	// svg.append("text")
-	//   .attr("class", "label")
-	//   .attr("text-anchor", "middle")
-	//   .attr("transform", "translate(" + width / 2 + "," + (height + margin.bottom / 2) + ")");              
-	// svg.append("text")
-	//   .attr("class", "label")
-	//   .attr("text-anchor", "middle")
-	//   .attr("transform", "translate(" + margin.left / -2 + "," + height / 2 + ")rotate(-90)");
+	svg.append("text")
+	  .attr("class", "label")
+	  .attr("text-anchor", "middle")
+	  .attr("transform", "translate(" + width / 2 + "," + (height + margin.bottom / 2) + ")");              
+	svg.append("text")
+	  .attr("class", "label")
+	  .attr("text-anchor", "middle")
+	  .attr("transform", "translate(" + margin.left / -2 + "," + height / 2 + ")rotate(-90)");
 
 
 	//7: Join, Update, Enter, Exit
@@ -101,48 +101,48 @@
 		radius = 5;
 	function update(data) {
 		// 7.1: Get Traits
-		// trait_x = random_trait();
-		// trait_y = random_trait();
+		trait_x = random_trait();
+		trait_y = random_trait();
 
 		// 7.2: Update Axes Labels
-		// svg.selectAll("text.label")
-		//   .data([trait_x, trait_y])
-		//   .text(function(d) { return d; });
+		svg.selectAll("text.label")
+		  .data([trait_x, trait_y])
+		  .text(function(d) { return d; });
 
 		// 7.3: Scale Domains
-		// x.domain([d3.min(data, function(d) { return d[trait_x]; }), 
-		// 		  d3.max(data, function(d) { return d[trait_x]; })]);
-		// y.domain([d3.min(data, function(d) { return d[trait_y]; }), 
-		// 		  d3.max(data, function(d) { return d[trait_y]; })]);
+		x.domain([d3.min(data, function(d) { return d[trait_x]; }), 
+				  d3.max(data, function(d) { return d[trait_x]; })]);
+		y.domain([d3.min(data, function(d) { return d[trait_y]; }), 
+				  d3.max(data, function(d) { return d[trait_y]; })]);
 
 		// 7.4: Update Axis
-		// svg.select('.x.axis').transition().duration(time).call(xAxis);
-		// svg.select(".y.axis").transition().duration(time).call(yAxis);
+		svg.select('.x.axis').transition().duration(time).call(xAxis);
+		svg.select(".y.axis").transition().duration(time).call(yAxis);
 
 		// 7.5: JOIN new data with old elements.
-		// var flower = svg.selectAll("circle")
-		//   .data(data, function(d) { return d["Index"]; });
+		var flower = svg.selectAll("circle")
+		  .data(data, function(d) { return d["Index"]; });
 
 		// 7.6: UPDATE old elements present in new data.
-		// flower.attr("class", "update")
-		// .transition(time)
-		//   .attr("cx", function(d) { return x(d[trait_x]); })
-		//   .attr("cy", function(d) { return y(d[trait_y]); });
+		flower.attr("class", "update")
+		.transition(time)
+		  .attr("cx", function(d) { return x(d[trait_x]); })
+		  .attr("cy", function(d) { return y(d[trait_y]); });
 
 		// 7.7: ENTER new elements present in new data.
-		// flower.enter().append("circle")
-		//   .attr("cx", function(d) { return x(d[trait_x]); })
-		//   .attr("cy", function(d) { return y(d[trait_y]); })
-		//   .attr("r", radius)
-		//   .style("fill", function(d) { return color(d["Species"]); })
-		//   .style("fill-opacity", 1e-6)
-		// .transition(time)
-		//   .style("fill-opacity", 1);
+		flower.enter().append("circle")
+		  .attr("cx", function(d) { return x(d[trait_x]); })
+		  .attr("cy", function(d) { return y(d[trait_y]); })
+		  .attr("r", radius)
+		  .style("fill", function(d) { return color(d["Species"]); })
+		  .style("fill-opacity", 1e-6)
+		.transition(time)
+		  .style("fill-opacity", 1);
 
 		// 7.8: EXIT old elements not present in new data.
-		// flower.exit()
-		//   .attr("class", "exit")
-		//   .remove();
+		flower.exit()
+		  .attr("class", "exit")
+		  .remove();
 	}
 
 	// 8a: Bind Visualize function to SVG on click
@@ -151,7 +151,7 @@
 	// });
 
 	// 8b: Bind Visualize function to SVG on click
-	// d3.select("svg").on("click", visualize);
+	d3.select("svg").on("click", visualize);
 
 
 
