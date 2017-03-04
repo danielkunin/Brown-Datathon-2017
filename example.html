@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Iris Flower Data Visualization</title>
+
+<style>
+	.axis path,
+	.axis line {
+		fill: none;
+		stroke: black;
+		stroke-width: 2;
+		shape-rendering: crispEdges;
+	}
+	.axis text,
+	text.label {
+		font-family: "Helvetica Neue";
+		font-size: 11px;
+		fill: black;
+	}
+	body {
+		text-align: center;
+	}
+	svg {
+		cursor: pointer;
+	}
+</style>
+
+<body>
+	<h1>Intro to D3.js</h3>
+	<p>A visualization of Edgar Anderson's <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">Iris Flower Data Set</a>.</p>
+	<p>Select which Iris species to explore.</p>
+	<form>
+        <label><input type="checkbox" value="setosa">setosa</label>
+        <label><input type="checkbox" value="versicolor">versicolor</label>
+        <label><input type="checkbox" value="virginica">virginica</label>
+    </form>
+    <p>Click on the plot to visualize the relationship between traits.</p>
+</body>
+
+<!-- Load D3 -->
+<script src="d3.min.js"></script>
+<!-- Load Data -->
+<script src="iris.js"></script>
+<!-- Our Code -->
+<script>
+
+// *************************************************************************************
+
+
+	// 1: Set up dimensions of SVG
+	var margin = {top: 30, right: 30, bottom: 60, left: 60},
+		width = 700 - margin.left - margin.right,
+		height = 500 - margin.top - margin.bottom;
+
+	// 2: Create SVG
+	var svg = d3.select("body").append("svg")
+	    .attr("width", width + margin.left + margin.right)
+	    .attr("height", height + margin.top + margin.bottom)
+	  .append("g")
+	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	// 3: Scales
+	var x = d3.scale.linear()
+	    .range([0, width]);
+	var y = d3.scale.linear()
+	    .range([height, 0]);
+	var color = d3.scale.category10();
+
+	// 4: Axes
+	var xAxis = d3.svg.axis()
+	    .scale(x)
+	    .orient("bottom")
+	    .ticks(6);
+	var yAxis = d3.svg.axis()
+	    .scale(y)
+	    .orient("left")
+	    .ticks(6);
+
+	// 5: Graph
+	svg.append("g")
+	  .attr("class", "x axis")
+	  .attr("transform", "translate(0," + height + ")")
+	  .call(xAxis);
+	svg.append("g")
+	  .attr("class", "y axis")
+	  .attr("transform", "translate(0,0)")
+	  .call(yAxis);
+
+	// 6: Axes Labels
+	svg.append("text")
+	  .attr("class", "label")
+	  .attr("text-anchor", "middle")
+	  .attr("transform", "translate(" + width / 2 + "," + (height + margin.bottom / 2) + ")");              
+	svg.append("text")
+	  .attr("class", "label")
+	  .attr("text-anchor", "middle")
+	  .attr("transform", "translate(" + margin.left / -2 + "," + height / 2 + ")rotate(-90)");
+
+
+	//7: Join, Exit, Update, Enter
+	var time = 300,
+		radius = 5;
+	function update(data) {
+		// 7.1: Get Traits
+		trait_x = random_trait();
+		trait_y = random_trait();
+
+		// 7.2: Update Axes Labels
+		svg.selectAll("text.label")
+		  .data([trait_x, trait_y])
+		  .text(function(d) { return d; });
+
+		// 7.3: Scale Domains
+		x.domain([d3.min(data, function(d) { return d[trait_x]; }), 
+				  d3.max(data, function(d) { return d[trait_x]; })]);
+		y.domain([d3.min(data, function(d) { return d[trait_y]; }), 
+				  d3.max(data, function(d) { return d[trait_y]; })]);
+
+		// 7.4: Update Axis
+		svg.select('.x.axis').transition().duration(time).call(xAxis);
+		svg.select(".y.axis").transition().duration(time).call(yAxis)
+
+		// 7.5: JOIN new data with old elements.
+		var flower = svg.selectAll("circle")
+		  .data(data, function(d) { return d["Index"]; });
+
+		// 7.6: EXIT old elements not present in new data.
+		flower.exit()
+		  .attr("class", "exit")
+		  .remove();
+
+		// 7.7: UPDATE old elements present in new data.
+		flower.attr("class", "update")
+		.transition(time)
+		  .attr("cx", function(d) { return x(d[trait_x]); })
+		  .attr("cy", function(d) { return y(d[trait_y]); });
+
+		// 7.8: ENTER new elements present in new data.
+		flower.enter().append("circle")
+		  .attr("cx", function(d) { return x(d[trait_x]); })
+		  .attr("cy", function(d) { return y(d[trait_y]); })
+		  .attr("r", radius)
+		  .style("fill", function(d) { return color(d["Species"]); })
+		  .style("fill-opacity", 1e-6)
+		.transition(time)
+		  .style("fill-opacity", 1);
+	}
+
+	// 8a: Bind Visualize function to SVG on click
+	// d3.select("svg").on("click", function() {
+	// 	update(iris);
+	// });
+
+	// 8b: Bind Visualize function to SVG on click
+	d3.select("svg").on("click", visualize);
+
+
+
+// *************************************************************************************
+
+
+	// function that visualizes checked species
+	function visualize() {
+		var species = [];
+		document.querySelectorAll('input:checked').forEach(function(element) {
+			species.push(element.value);
+		});
+		data = iris.filter(function(d) { return species.indexOf(d['Species']) != -1; });
+		update(data);
+	}
+
+	// function that returns random trait of iris dataset
+	function random_trait() {
+		traits = ["Sepal Length", "Sepal Width", "Petal Length", "Petal Width"];
+		index = Math.floor(Math.random() * 4);
+		return traits[index]
+	}
+
+</script>
