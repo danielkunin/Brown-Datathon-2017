@@ -2,49 +2,42 @@
 <meta charset="utf-8">
 <title>Iris Flower Data Visualization</title>
 
+<!-- ********* CSS ********* -->
+
 <style>
-	.axis path,
-	.axis line {
-		fill: none;
-		stroke: black;
-		stroke-width: 2;
-		shape-rendering: crispEdges;
-	}
-	.axis text,
-	text.label {
-		font-family: "Helvetica Neue";
-		font-size: 11px;
-		fill: black;
-	}
 	body {
 		text-align: center;
 	}
-	svg {
+	button {
 		cursor: pointer;
 	}
 </style>
+
+<!-- ********* HTML ********* -->
 
 <body>
 	<h1>Intro to D3.js</h3>
 	<p>A visualization of Edgar Anderson's <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">Iris Flower Data Set</a>.</p>
 	<p>Select which Iris species to explore.</p>
 	<form>
-        <label><input type="checkbox" value="setosa">setosa</label>
-        <label><input type="checkbox" value="versicolor">versicolor</label>
-        <label><input type="checkbox" value="virginica">virginica</label>
+        <label><input type="checkbox" value="setosa" checked>setosa</label>
+        <label><input type="checkbox" value="versicolor" checked>versicolor</label>
+        <label><input type="checkbox" value="virginica" checked>virginica</label>
     </form>
-    <p>Click on the plot to visualize the relationship between traits.</p>
+    <p>Click on <button>plot</button> to visualize the relationship between traits.</p>
 </body>
 
-<!-- Load D3 -->
+
+<!-- ********* JavaScript ********* -->
+
+<!-- Load D3 Locally -->
 <script src="d3.min.js"></script>
+<!-- Load D3 Remotely -->
+<script src="https://d3js.org/d3.v5.min.js"></script>
 <!-- Load Data -->
 <script src="iris.js"></script>
 <!-- Our Code -->
 <script>
-
-// *************************************************************************************
-
 
 	// 1: Set up dimensions of SVG
 	var margin = {top: 30, right: 30, bottom: 60, left: 60},
@@ -59,29 +52,23 @@
 	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	// 3: Scales
-	var x = d3.scale.linear()
+	var x = d3.scaleLinear()
 	    .range([0, width]);
-	var y = d3.scale.linear()
+	var y = d3.scaleLinear()
 	    .range([height, 0]);
-	var color = d3.scale.category10();
+	var color = d3.scaleOrdinal(d3.schemeCategory10);
 
 	// 4: Axes
-	var xAxis = d3.svg.axis()
-	    .scale(x)
-	    .orient("bottom")
-	    .ticks(6);
-	var yAxis = d3.svg.axis()
-	    .scale(y)
-	    .orient("left")
-	    .ticks(6);
+	var xAxis = d3.axisBottom(x),
+		yAxis = d3.axisLeft(y);
 
-	// 5: Graph
-	svg.append("g")
-	  .attr("class", "x axis")
+	// 5: Axes Group
+	var xGroup = svg.append("g")
+	  .attr("class", "axis axis--x")
 	  .attr("transform", "translate(0," + height + ")")
 	  .call(xAxis);
-	svg.append("g")
-	  .attr("class", "y axis")
+	var yGroup = svg.append("g")
+	  .attr("class", "axis axis--y")
 	  .attr("transform", "translate(0,0)")
 	  .call(yAxis);
 
@@ -109,15 +96,15 @@
 		  .data([trait_x, trait_y])
 		  .text(function(d) { return d; });
 
-		// 7.3: Scale Domains
+		// 7.3: Scale Axes
 		x.domain([d3.min(data, function(d) { return d[trait_x]; }), 
 				  d3.max(data, function(d) { return d[trait_x]; })]);
 		y.domain([d3.min(data, function(d) { return d[trait_y]; }), 
 				  d3.max(data, function(d) { return d[trait_y]; })]);
 
-		// 7.4: Update Axis
-		svg.select('.x.axis').transition().duration(time).call(xAxis);
-		svg.select(".y.axis").transition().duration(time).call(yAxis);
+		// 7.4: Transition Axis
+		xGroup.transition(time).call(xAxis);
+		yGroup.transition(time).call(yAxis);
 
 		// 7.5: JOIN new data with old elements.
 		var flower = svg.selectAll("circle")
@@ -145,18 +132,11 @@
 		  .remove();
 	}
 
-	// 8a: Bind Visualize function to SVG on click
-	// d3.select("svg").on("click", function() {
-	// 	update(iris);
-	// });
-
-	// 8b: Bind Visualize function to SVG on click
-	d3.select("svg").on("click", visualize);
+	// 8: Bind Visualize function to SVG on click
+	d3.select("button").on("click", visualize);
 
 
-
-// *************************************************************************************
-
+	// Helper Functions:
 
 	// function that visualizes checked species
 	function visualize() {
@@ -167,7 +147,6 @@
 		data = iris.filter(function(d) { return species.indexOf(d['Species']) != -1; });
 		update(data);
 	}
-
 	// function that returns random trait of iris dataset
 	function random_trait() {
 		traits = ["Sepal Length", "Sepal Width", "Petal Length", "Petal Width"];
